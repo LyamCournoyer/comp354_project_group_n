@@ -1,0 +1,2 @@
+for 10 times add 1 to 2
+add x to 3
