@@ -4,3 +4,5 @@ subtract 4 from 6
 multiply 2 by 4
 divide 10 by 2
 modulo 10 by 3
+set test to 19
+add test to 2

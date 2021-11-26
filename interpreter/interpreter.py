@@ -9,7 +9,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--file', help='file to run')
 parser.add_argument('--debug', help='run with debug output', action='store_true')
 args = parser.parse_args()
+
 mathOps = ['add', 'subtract', 'multiply', 'divide', 'modulo']
+mathKeys = ['by', 'to', 'from']
+actionOps = ['set', 'for', 'if']
+actionKeys = ['times']
 
 def main(file_, run_with_debug=False):
     if run_with_debug:
@@ -117,8 +121,25 @@ class MathAction(Action):
         try: 
             value = float(var)
         except:
-            value = variables.get(var)
-            #TODO make sure it's not a keyword, otherwise assume variable            
+            if check_keywords(var): 
+                value = variables.get(var)
+            else:
+                raise          
+            
+        logger.debug('Using value {}'.format(value))
+        return value
+
+    def set_var(self, var, variables):
+        """
+        Determine if the passed value is a literal or a variable.
+        """    
+        try: 
+            value = float(var)
+        except:
+            if check_keywords(var): 
+                value = variables.get(var)
+            else:
+                raise          
             
         logger.debug('Using value {}'.format(value))
         return value
@@ -195,15 +216,53 @@ class ModAction(MathAction):
         return res
     
 class SetAction(Action):
-    def __init__(self):
-        pass
+    """
+    Set variable
+    """
+    def __init__(self, var_name, value):
+        self.type = 'set'
+        self.var_name = var_name
+        self.value = value
+
+    def action(self, variables):
+        logger.debug('Set: {} to {}'.format(self.var_name, self.value))
+        variables.add(self.var_name, self.value)
+        return self.value
+
+    @classmethod 
+    def parse_from_line(self, items):
+        var_name = items[1]
+        value = items[3]
+        if len(items) != 4:
+            raise
+        if items[0] != 'set':
+            raise        
+        if items[2] != 'to':                
+            raise
+        if var_name.isdigit() or not check_keywords(var_name):
+            raise
+
+        try:
+            value = float(value)    
+        except:
+            raise
+        
+        return SetAction(var_name, value)
+
+    def __str__(self):
+        return f'{self.__class__} var_name:{self.var_name} value:{self.value}'
 
 def parse_line(items):
     logger.debug(f'Items left to parse {items}')
     if items[0] == 'for':                
         return ForAction.parse_from_line(items)
+    if items[0] == 'set':
+        return SetAction.parse_from_line(items)
     if items[0] in mathOps:
         return MathAction.parse_from_line(items)
+
+def check_keywords(word):
+    return word not in mathOps and word not in mathKeys and word not in actionOps and word not in actionKeys
 
 class Variables:
     def __init__(self):
@@ -213,10 +272,11 @@ class Variables:
         self.__items[name] = val
     
     def get(self, name):        
-        #TODO raise if doesn't exist
         logger.debug('Getting variable: {}'.format(name)) 
-        return self.__items[name]
-
+        if name in self.__items:
+            return self.__items[name]
+        else:
+            raise
 
 if __name__ == "__main__":
     args = parser.parse_args()
