@@ -5,13 +5,11 @@ import logging
 from globals import logger
 import argparse
 
-
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--file', help='file to run')
 parser.add_argument('--debug', help='run with debug output', action='store_true')
 args = parser.parse_args()
-
+mathOps = ['add', 'subtract', 'multiply', 'divide', 'modulo']
 
 def main(file_, run_with_debug=False):
     if run_with_debug:
@@ -83,6 +81,7 @@ class MathAction(Action):
         self.do_print = True
     
     @classmethod 
+    # Determines & calls type of Math operation 
     def parse_from_line(self, items):
         var1 = items[1]
         var2 = items[3]
@@ -92,6 +91,22 @@ class MathAction(Action):
             if items[2] != 'to':
                 raise
             return AddAction(var1, var2)
+        if items[0] == 'subtract':
+            if items[2] != 'from':
+                raise
+            return SubAction(var1, var2)
+        if items[0] == 'multiply':
+            if items[2] != 'by':
+                raise
+            return MultAction(var1, var2)
+        if items[0] == 'divide':
+            if items[2] != 'by':
+                raise
+            return DivAction(var1, var2)
+        if items[0] == 'modulo':
+            if items[2] != 'by':
+                raise
+            return ModAction(var1, var2)
         else:
             raise
     
@@ -127,6 +142,57 @@ class AddAction(MathAction):
             logger.info(res)
         return res
     
+class SubAction(MathAction):
+    """
+    Subtract two numbers
+    """
+    def action(self, variables):
+        logger.debug('Subtract: {} from {}'.format(self.var1, self.var2 ))
+        var1_val = self.get_var(self.var1, variables)
+        var2_val = self.get_var(self.var2, variables)
+        res = var2_val - var1_val
+        if self.do_print:
+            logger.info(res)
+        return res
+
+class MultAction(MathAction):
+    """
+    Multiply two numbers
+    """
+    def action(self, variables):
+        logger.debug('Multiply: {} by {}'.format(self.var1, self.var2 ))
+        var1_val = self.get_var(self.var1, variables)
+        var2_val = self.get_var(self.var2, variables)
+        res = var1_val * var2_val
+        if self.do_print:
+            logger.info(res)
+        return res
+
+class DivAction(MathAction):
+    """
+    Divide two numbers
+    """
+    def action(self, variables):
+        logger.debug('Divide: {} by {}'.format(self.var1, self.var2 ))
+        var1_val = self.get_var(self.var1, variables)
+        var2_val = self.get_var(self.var2, variables)
+        res = var1_val/var2_val
+        if self.do_print:
+            logger.info(res)
+        return res
+
+class ModAction(MathAction):
+    """
+    Modulo two numbers
+    """
+    def action(self, variables):
+        logger.debug('Modulo: {} by {}'.format(self.var1, self.var2 ))
+        var1_val = self.get_var(self.var1, variables)
+        var2_val = self.get_var(self.var2, variables)
+        res = var1_val%var2_val
+        if self.do_print:
+            logger.info(res)
+        return res
     
 class SetAction(Action):
     def __init__(self):
@@ -136,9 +202,8 @@ def parse_line(items):
     logger.debug(f'Items left to parse {items}')
     if items[0] == 'for':                
         return ForAction.parse_from_line(items)
-    if items[0] == 'add':
+    if items[0] in mathOps:
         return MathAction.parse_from_line(items)
-        
 
 class Variables:
     def __init__(self):

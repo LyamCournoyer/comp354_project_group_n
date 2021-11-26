@@ -1,2 +1,6 @@
 for 10 times add 1 to 2
 add x to 3
+subtract 4 from 6
+multiply 2 by 4
+divide 10 by 2
+modulo 10 by 3
