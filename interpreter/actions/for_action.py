@@ -6,8 +6,7 @@ import functions
 
 
 class ForAction(action.Action):
-    def __init__(self, num_iterations, next_action):
-        self.type = 'for'
+    def __init__(self, num_iterations, next_action):        
         self.steps = [num_iterations, next_action]
         self.num_iterations = num_iterations
         self.next_action = next_action
@@ -19,6 +18,7 @@ class ForAction(action.Action):
 
     @classmethod 
     def parse_from_line(self,items):
+        #for x times do action
         num_iterations = None
         if items[0] != 'for':
             raise        
