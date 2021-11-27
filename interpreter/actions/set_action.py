@@ -7,8 +7,7 @@ class SetAction(action.Action):
     """
     Set variable
     """
-    def __init__(self, var_name, value):
-        self.type = 'set'
+    def __init__(self, var_name, value):        
         self.var_name = var_name
         self.value = value
 

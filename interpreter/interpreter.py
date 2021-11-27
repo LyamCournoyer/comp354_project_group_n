@@ -6,6 +6,8 @@ import argparse
 
 from globals import logger
 from functions import parse_line
+from variables import Variables
+from custom_exceptions import VariableException
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--file', help='file to run')
@@ -20,34 +22,28 @@ def main(file_, run_with_debug=False):
     lines = None
     #TODO better way to read maybe
     with open(file_, 'r') as f:
-        lines = f.read().splitlines()
-    # lines = ['for 10 times add 1 to 2', 'add x to 3']
+        lines = f.read().splitlines()    
     logger.debug(lines)
     line_number = 0
     for line in lines:
         line_number += 1
-        parsed_lined = parse_line(line.split())
+        items = line.split()
+        if not items:
+            #nothing to do on a empty line
+            continue 
+        parsed_lined = parse_line(items)
         logger.debug(parsed_lined)
         try:
             parsed_lined.action(global_variables)
-        except Exception  as e:
+        except VariableException as e:
             logger.error(f'Line {line_number}: {e}')
+            logger.debug(f'Current variables {global_variables}')
+        except Exception  as e:
+            logger.error(f'Unknown error at: Line {line_number}')
+            logger.debug(f'Unknown error at: Line {line_number}: {e}')
 
 
 
-class Variables:
-    def __init__(self):
-        self.__items = {}
-    
-    def add(self, name, val):       
-        self.__items[name] = val
-    
-    def get(self, name):        
-        logger.debug('Getting variable: {}'.format(name)) 
-        if name in self.__items:
-            return self.__items[name]
-        else:
-            raise
 
 if __name__ == "__main__":
     args = parser.parse_args()
