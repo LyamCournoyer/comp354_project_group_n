@@ -17,3 +17,11 @@ Only minor changes have been done to be integrated with the interpreter.
 ## How to run
 `python ./editor/editor.py`
 
+# Tests
+The tests are writting using [unittest](https://docs.python.org/3/library/unittest.html#module-unittest)
+
+## How to run
+### A single test file
+`python -m  tests.test_math_actions`
+### All test files
+TODO use unittest discover
