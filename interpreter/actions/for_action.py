@@ -3,9 +3,10 @@ import actions.math_actions as math_action
 import actions.set_action as set_action
 from globals import logger
 import functions
-
+from custom_exceptions import IncorrectSyntaxException, ActionException
 
 class ForAction(action.Action):
+    name = "for"
     def __init__(self, num_iterations, next_action):        
         self.steps = [num_iterations, next_action]
         self.num_iterations = num_iterations
@@ -21,22 +22,22 @@ class ForAction(action.Action):
         #for x times do action
         num_iterations = None
         if items[0] != 'for':
-            raise        
+            raise IncorrectSyntaxException(self.name)      
         if items[2] != 'times':                
-            raise
+            raise IncorrectSyntaxException(self.name)
         if items[1].isdigit():
             num_iterations = int(items[1])
         else:
-            raise
+            raise ActionException(self.name)
         #TODO check if items[1] is a var        
         if len(items) <=3:
-            raise
+            raise IncorrectSyntaxException(self.name)
         next_action = functions.parse_line(items[3:])
         logger.debug(f'Next action is {next_action}')
         if  isinstance(next_action, math_action.MathAction) or isinstance(next_action, set_action.SetAction):        
             return ForAction(num_iterations, next_action)
         else:
-            raise
+            raise ActionException(self.name)
     
     def __str__(self):
         return f'{self.__class__} num_iterations:{self.num_iterations} next_action:{self.next_action}'

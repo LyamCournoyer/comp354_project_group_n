@@ -4,6 +4,7 @@ import actions.math_actions as math_action
 import actions.for_action as for_action
 import actions.set_action as set_action
 import actions.if_action as if_action
+from custom_exceptions import VariableIsKeywordException
 from variables import Variables
 
 def parse_line(items):
@@ -33,7 +34,7 @@ def get_var(var, _variables: Variables):
         if check_keywords(var): 
             value = _variables.get(var)
         else:
-            raise          
+            raise VariableIsKeywordException(var)        
         
     logger.debug('Using value {}'.format(value))
     return value
@@ -48,7 +49,7 @@ def set_var(var, _variables: Variables):
         if check_keywords(var): 
             value = _variables.get(var)
         else:
-            raise          
+            raise VariableIsKeywordException(var)         
     
     logger.debug('Using value {}'.format(value))
     return value
