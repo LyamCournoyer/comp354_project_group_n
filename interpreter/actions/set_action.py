@@ -3,10 +3,12 @@ import actions.math_actions as math_action
 import globals
 from globals import logger
 import functions
+from custom_exceptions import VariableNumberException, VariableIsKeywordException, VariableDoesNotExistException, IncorrectSyntaxException, ActionException
 class SetAction(action.Action):
     """
     Set variable
     """
+    name = "set"
     def __init__(self, var_name, value):        
         self.var_name = var_name
         self.value = value
@@ -24,21 +26,23 @@ class SetAction(action.Action):
         # if len(items) <= 4:
         #     raise
         if items[0] != 'set':
-            raise        
+            raise IncorrectSyntaxException(self.name)      
         if items[2] != 'to':                
-            raise       
-        if var_name.isdigit() or not functions.check_keywords(var_name):
-            raise
+            raise IncorrectSyntaxException(self.name)      
+        if var_name.isdigit(): 
+            raise VariableNumberException(var_name)
+        if not functions.check_keywords(var_name):
+            raise VariableIsKeywordException(var_name)
         
         if value in globals.MATH_OPS:
             next_action = functions.parse_line(items[3:])
             if not isinstance(next_action, math_action.MathAction):
-                raise 
+                raise ActionException(self.name)
             return SetAction(var_name, next_action)
         try:
             value = float(value)    
         except:
-            raise
+            raise VariableDoesNotExistException(value)
         
         return SetAction(var_name, value)
 

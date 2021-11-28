@@ -7,7 +7,7 @@ import argparse
 from globals import logger
 from functions import parse_line
 from variables import Variables
-from custom_exceptions import VariableException
+from custom_exceptions import InterpreterException
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--file', help='file to run')
@@ -30,12 +30,12 @@ def main(file_, run_with_debug=False):
         items = line.split()
         if not items:
             #nothing to do on a empty line
-            continue 
-        parsed_lined = parse_line(items)
-        logger.debug(parsed_lined)
+            continue    
         try:
+            parsed_lined = parse_line(items)
+            logger.debug(parsed_lined)
             parsed_lined.action(global_variables)
-        except VariableException as e:
+        except InterpreterException as e:
             logger.error(f'Line {line_number}: {e}')
             logger.debug(f'Current variables {global_variables}')
         except Exception  as e:
