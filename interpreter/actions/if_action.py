@@ -15,7 +15,6 @@ class IfAction(action.Action):
         self.var1 = var1
         self.var2 = var2
         self.next_action = next_action 
- 
     
     def action(self, variables):
         var1_val = functions.get_var(self.var1, variables)
@@ -44,7 +43,7 @@ class IfAction(action.Action):
             raise IncorrectSyntaxException(self.name)
         if first_link_word != 'is':
             raise IncorrectSyntaxException(self.name)
-        if second_link_word != 'than':
+        if second_link_word != 'then':
             raise IncorrectSyntaxException(self.name)
         if condition_name not in globals.IF_CONDITIONS:
             raise IfConditionException()
