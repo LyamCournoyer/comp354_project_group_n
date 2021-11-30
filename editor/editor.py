@@ -51,13 +51,27 @@ def SavethisfileAs():
         file.write(code)
 
 editor = Text()
-editor.config(bg='white', fg='blue', insertbackground='black')
+editor.config(bg='white', fg='blue', insertbackground='black',undo=True)
 editor.pack()
 
 Result = Text(height=7)
 Result.config(bg='black', fg='green')
 Result.pack()
- 
+
+def help_appear():
+    global help
+    help = Toplevel(ws)
+    help.title("Help")
+    help.geometry("500x500")
+    help.config(bg="white")
+
+    ## placeholder for help text
+    help_label = Label(help, text="hello here is help",bg="white")
+    help_label.pack()
+
+btn1 = Button(ws, text='Help', command=help_appear)
+btn1.pack(side='bottom', anchor='n', padx=0, pady=0)
+
 Menu_option = Menu(ws)
 
 File_option = Menu(Menu_option, tearoff=0)
@@ -70,6 +84,16 @@ Menu_option.add_cascade(label='File', menu = File_option)
 Compile_option = Menu(Menu_option, tearoff=0)
 Compile_option.add_command(label='compile', command = Runthiscode)
 Menu_option.add_cascade(label='compile', menu = Compile_option)
+
+
+Undo_option = Menu(Menu_option, tearoff=0)
+Undo_option.add_command(label='Undo', command = editor.edit_undo)
+Menu_option.add_cascade(label='Undo', menu = Undo_option)
+
+Redo_option = Menu(Menu_option, tearoff=0)
+Redo_option.add_command(label='Redo', command = editor.edit_redo)
+Menu_option.add_cascade(label='Redo', menu = Redo_option)
+
 
 def retrieve_input():
     return editor.get("1.0",'end-1c')
