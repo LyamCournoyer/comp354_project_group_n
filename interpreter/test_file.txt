@@ -10,6 +10,6 @@ add test to 2
 set test_for to 0
 for 10 times set test_for to add 1 to test_for
 set test_if to 100
-if 1 is less then 2 add 1 to 34
-if 30000 is greater then test_if set y to multiply 10 by 10
+if 1 is less than 2 add 1 to 34
+if 30000 is greater than test_if set y to multiply 10 by 10
 set invalid to testing
