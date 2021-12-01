@@ -43,7 +43,7 @@ class IfAction(action.Action):
             raise IncorrectSyntaxException(self.name)
         if first_link_word != 'is':
             raise IncorrectSyntaxException(self.name)
-        if second_link_word != 'then':
+        if second_link_word != 'than':
             raise IncorrectSyntaxException(self.name)
         if condition_name not in globals.IF_CONDITIONS:
             raise IfConditionException()
