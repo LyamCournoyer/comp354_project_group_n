@@ -15,7 +15,6 @@ class IfAction(action.Action):
         self.var1 = var1
         self.var2 = var2
         self.next_action = next_action 
- 
     
     def action(self, variables):
         var1_val = functions.get_var(self.var1, variables)
