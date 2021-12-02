@@ -1,5 +1,8 @@
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import unittest
 import actions.math_actions as math_action
+from custom_exceptions import IncorrectSyntaxException, DivideByZeroException
 import variables
 
 from custom_exceptions import IncorrectSyntaxException,VariableIsKeywordException, VariableIsKeywordException,DivideByZeroException
@@ -59,6 +62,5 @@ class TestMathActions(unittest.TestCase):
         for expected_exception in lines_expect_exception:
             with self.assertRaises(IncorrectSyntaxException):
                 math_action.MathAction.parse_from_line(expected_exception)
-
 if __name__ == '__main__':
     unittest.main()
