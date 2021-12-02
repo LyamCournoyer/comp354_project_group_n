@@ -27,6 +27,7 @@ class TestIfActions(unittest.TestCase):
                 action_res = parsed_action.action(my_variables)
                 self.assertEqual(action_res, expected_res.expected_result)
 
+    def test_exceptions(self):
         lines_expected_exception = [
             'if 2 is greater than 2 add 1 to 34',
             'if 3 is less than 2 add 1 to 34',

@@ -16,8 +16,6 @@ class ExpectedResult():
 class TestSetActions(unittest.TestCase):
 
     def test_parsing_and_actions(self):
-
-        ## Check that these expected results are valid
         valid_lines_to_test = [
             ExpectedResult('set x to 5', set_action.SetAction, 5, 'x gets set to 5'),
             ExpectedResult('set x to 56', set_action.SetAction, 56, 'x gets set to 56'),
@@ -32,7 +30,8 @@ class TestSetActions(unittest.TestCase):
                 action_res = parsed_action.action(my_variables)
                 self.assertEqual(action_res, expected_res.expected_result)
 
-        ## Check that numbers and keywords used as variable names throws exceptions
+    ## Check that numbers and keywords used as variable names throws exceptions
+    def test_exceptions(self):
         lines_expected_exception = [
             'set add to 5',
             'set subtract to 88',
@@ -44,7 +43,9 @@ class TestSetActions(unittest.TestCase):
             with self.assertRaises(IncorrectSyntaxException):
                 set_action.SetAction.parse_from_line(expected_exception)
 
-        ## Check that using set allows for equation chaining
+    ## Check that using set allows for equation chaining
+    def test_chained_equations(self):
+        
         chained_equations_lines = [
             ExpectedResult('set x to add 6 to 9', set_action.SetAction, math_action.AddAction, 'an addition gets set'),
             ExpectedResult('set x to subtract 88 from 100', set_action.SetAction, math_action.SubAction, 'a subtraction gets set'),
