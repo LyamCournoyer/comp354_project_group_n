@@ -10,8 +10,6 @@ class ExpectedResult():
         self.expected_result = expected_result
         self.reason = reason
     
-
-
 class TestMathActions(unittest.TestCase):
 
     def test_parsing_and_actions(self):
@@ -47,8 +45,6 @@ class TestMathActions(unittest.TestCase):
                 self.assertIsInstance(parsed_action, expected_res.type )
                 action_res = parsed_action.action(my_variables)
                 self.assertEqual(action_res, expected_res.expected_result)
-
-
 
 if __name__ == '__main__':
     unittest.main()
