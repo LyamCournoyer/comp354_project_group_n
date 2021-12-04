@@ -35,12 +35,15 @@ def Runthiscode():
     
     # setting color to everythin after result (error msgs) to red
     numLines = float(Result.index(END))-1.1
-    Result.tag_add('errorText', str(numLines), END)
-    Result.tag_config('errorText', foreground='red')
-
+    if str(result) == "b''":
+        Result.configure(foreground='red')
+    else:
+        Result.tag_add('errorText', str(numLines), END)
+        Result.tag_config('errorText', foreground='red')
+    
     Result.insert(END,Error)
     Result.configure(state='disabled')
-     
+    
 
 def Openthisfile():
     path = askopenfilename(filetypes=[('Python Files','*.py')])
