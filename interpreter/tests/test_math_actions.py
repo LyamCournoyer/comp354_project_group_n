@@ -1,6 +1,11 @@
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import unittest
 import actions.math_actions as math_action
+from custom_exceptions import IncorrectSyntaxException, DivideByZeroException
 import variables
+
+from custom_exceptions import IncorrectSyntaxException,VariableIsKeywordException, VariableIsKeywordException,DivideByZeroException
 
 class ExpectedResult():
     def __init__(self, line, _type, expected_result, reason=''):
@@ -10,8 +15,6 @@ class ExpectedResult():
         self.expected_result = expected_result
         self.reason = reason
     
-
-
 class TestMathActions(unittest.TestCase):
 
     def test_parsing_and_actions(self):
@@ -48,7 +51,16 @@ class TestMathActions(unittest.TestCase):
                 action_res = parsed_action.action(my_variables)
                 self.assertEqual(action_res, expected_res.expected_result)
 
+    def test_exceptions(self):
 
+        lines_expect_exception = [
+            'divide 5 by 0',
+            'add 5 to 5 to 5',
+            'modulo 54 by 0'
+        ]
 
+        for expected_exception in lines_expect_exception:
+            with self.assertRaises(IncorrectSyntaxException):
+                math_action.MathAction.parse_from_line(expected_exception)
 if __name__ == '__main__':
     unittest.main()
