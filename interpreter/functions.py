@@ -4,7 +4,7 @@ import actions.math_actions as math_action
 import actions.for_action as for_action
 import actions.set_action as set_action
 import actions.if_action as if_action
-from custom_exceptions import VariableIsKeywordException
+from custom_exceptions import VariableIsKeywordException, IncorrectSyntaxException
 from variables import Variables
 
 def parse_line(items):
@@ -17,7 +17,8 @@ def parse_line(items):
         return math_action.MathAction.parse_from_line(items)
     elif items[0] == 'if':
         return if_action.IfAction.parse_from_line(items)
-    
+    else:
+        raise IncorrectSyntaxException(items[0])
 
 
 def check_keywords(word):
