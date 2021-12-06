@@ -1,3 +1,5 @@
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 import unittest
 import actions.if_action as if_action
 import variables
