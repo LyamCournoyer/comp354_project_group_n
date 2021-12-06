@@ -46,7 +46,7 @@ def Runthiscode():
     
 
 def Openthisfile():
-    path = askopenfilename(filetypes=[('Python Files','*.py')])
+    path = askopenfilename(filetypes=[('Python Files','*.py'),("Text Files", "*.txt")])
     with open(path, 'r') as file:
         code = file.read()
         editor.delete('1.0', END)
@@ -57,7 +57,7 @@ def Openthisfile():
 def SavethisfileAs():
     global gpath
     if Cpath =='':
-        path = asksaveasfilename(filetypes=[('Python Files','*.py')])
+        path = asksaveasfilename(filetypes=[('Python Files','*.py'),("Text Files", "*.txt")])
     else:
         path = Cpath    
     with open(path, 'w') as file:
@@ -90,7 +90,7 @@ def help_appear():
         "accordance to this application's synthax, just as in actual code editors. \n\n\nHere are examples of all the "\
             "keywords (with placeholder numbers): \n\nadd 2 to 3 (output: 5)\n\nremove 2 from 3 (output: 1)\n\nmultiply 5 by 5 "\
                 "(output: 25)\n\ndivide 10 by 2 (output: 5)\n\nmodulo 10 by 3 (output: 1, gives remainder of 10/3 division)\n\n"\
-                    "set X to 3 (output: makes user-made variable X equal to 3)\n\nget X (outputs the value of X to the console)\n\n"\
+                    "set X to 3 (output: makes user-made variable X equal to 3)\n\nfor 5 times add 25 to 25 (outputs 50 to the console 5 times)\n\n"\
                         "if X is less than 10 add 2 to 3 (adds 2 to 3 if variable X is less than 10, and if X is more than 10, it "\
                             "skips the addition)\n\nKeywords if, true, false, to, from & by are used in between the above keywords\n"
     help_label = Label(help, text=helpTxt,bg="white", wraplength=450, font=("Verdana", 10), anchor=NE, justify='left', pady=10)
