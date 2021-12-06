@@ -62,5 +62,6 @@ class TestMathActions(unittest.TestCase):
         for expected_exception in lines_expect_exception:
             with self.assertRaises(IncorrectSyntaxException):
                 math_action.MathAction.parse_from_line(expected_exception)
+                
 if __name__ == '__main__':
     unittest.main()
