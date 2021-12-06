@@ -88,7 +88,7 @@ def help_appear():
     helpTxt = "This application aims at teaching children to program a simple math algorithm by " \
     "indroducing to the logic used in programming. There are multiple built-in keywords that need to be used with " \
         "accordance to this application's synthax, just as in actual code editors. \n\n\nHere are examples of all the "\
-            "keywords (with placeholder numbers): \n\nadd 2 to 3 (output: 5)\n\nremove 2 from 3 (output: 1)\n\nmultiply 5 by 5 "\
+            "keywords (with placeholder numbers): \n\nadd 2 to 3 (output: 5)\n\nsubtract 2 from 3 (output: 1)\n\nmultiply 5 by 5 "\
                 "(output: 25)\n\ndivide 10 by 2 (output: 5)\n\nmodulo 10 by 3 (output: 1, gives remainder of 10/3 division)\n\n"\
                     "set X to 3 (output: makes user-made variable X equal to 3)\n\nfor 5 times add 25 to 25 (outputs 50 to the console 5 times)\n\n"\
                         "if X is less than 10 add 2 to 3 (adds 2 to 3 if variable X is less than 10, and if X is more than 10, it "\
