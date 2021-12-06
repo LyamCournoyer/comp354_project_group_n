@@ -30,6 +30,7 @@ def Runthiscode():
     
     # Clear and display new output
     Result.configure(state='normal')
+    Result.configure(foreground='light green')
     Result.delete('1.0', END)
     Result.insert(END,result)
     
