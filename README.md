@@ -24,4 +24,4 @@ The tests are writting using [unittest](https://docs.python.org/3/library/unitte
 ### A single test file
 `python -m  tests.test_math_actions`
 ### All test files
-TODO use unittest discover
+`python -m unittest discover -v -s interpreter/ `
